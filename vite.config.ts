@@ -13,7 +13,7 @@ function gitVisualizer(): Plugin {
     child = undefined;
   };
   return {
-    name: 'ft-acade-git-visualizer',
+    name: 'ft-arcade-git-visualizer',
     apply: 'serve',
     configureServer(server) {
       if (process.env.CI || process.env.FT_NO_VISUALIZER) return;

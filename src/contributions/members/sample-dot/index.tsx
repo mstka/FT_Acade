@@ -1,4 +1,4 @@
-import type { MemberMeta } from '../../types/contribution';
+import type { MemberMeta } from '../../../types/contribution';
 import styles from './profile.module.css';
 
 // 教材用の架空のメンバーです。

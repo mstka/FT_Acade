@@ -1,19 +1,24 @@
 import { Link, useParams } from 'react-router-dom';
+import type { WorkCategory } from '../types/contribution';
 import { findWork } from '../registry/contributions';
 import { getSection } from '../registry/categories';
 import ErrorBoundary from '../components/ErrorBoundary';
 import NotFoundPage from './NotFoundPage';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 
-/** /members/:slug/:work — 1 つの作品のページ */
-export default function WorkPage() {
-  const { slug = '', work: id = '' } = useParams();
-  const work = findWork(slug, id);
+interface Props {
+  category: WorkCategory;
+}
+
+/** /arcade/:slug と /tools/:slug — 1 つの作品のページ */
+export default function WorkPage({ category }: Props) {
+  const { slug = '' } = useParams();
+  const work = findWork(category, slug);
   useDocumentTitle(work?.meta.title);
 
   if (!work) return <NotFoundPage />;
-  const { meta, member, Component } = work;
-  const section = getSection(meta.category);
+  const { meta, Component } = work;
+  const section = getSection(category);
 
   return (
     <div className="page">
@@ -25,15 +30,13 @@ export default function WorkPage() {
         <span aria-current="page">{meta.title}</span>
       </nav>
 
-      <header className={`page-head page-head--${meta.category}`}>
+      <header className={`page-head page-head--${category}`}>
         <span className="page-head__emoji" aria-hidden="true">{meta.emoji}</span>
         <div>
-          <span className={`chip chip--${meta.category}`}>{section.label}</span>
+          <span className={`chip chip--${category}`}>{section.label}</span>
+          {meta.sample && <span className="chip chip--muted"> サンプル</span>}
           <h1 className="work-head__title">{meta.title}</h1>
           <p className="page-head__desc">{meta.description}</p>
-          <Link to={`/members/${member.meta.slug}`} className="work-head__author">
-            <span aria-hidden="true">{member.meta.emoji}</span> {member.meta.name} さんの作品 →
-          </Link>
         </div>
       </header>
 

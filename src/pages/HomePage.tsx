@@ -9,7 +9,7 @@ import { useDocumentTitle } from '../lib/useDocumentTitle';
 
 const STEPS = [
   { level: 'L1', title: '動かして公開する', body: 'clone → ローカルで起動 → 自分の Vercel に公開 → 環境変数で名前を表示' },
-  { level: 'L2', title: '自分のページを作る', body: 'ブランチを作り src/contributions/<自分>/ に自己紹介と作品を追加 → commit / push → Pull Request' },
+  { level: 'L2', title: '自分のページを作る', body: 'ブランチを作り、自己紹介 (members/) やゲーム・ツール (arcade/・tools/) のフォルダを追加 → commit / push → Pull Request' },
   { level: 'L3', title: 'API とつなぐ', body: '共通のバックエンド (GAS) からデータを取得・送信する発展課題' },
 ];
 
@@ -27,7 +27,7 @@ export default function HomePage() {
       <section className="hero">
         <p className="hero__eyebrow">For Two 勉強会 共同開発プロジェクト</p>
         <h1 className="hero__title">
-          <span className="hero__logo">FT_Acade</span>
+          <span className="hero__logo">FT_Arcade</span>
         </h1>
         <p className="hero__lead">みんなで 1 つのリポジトリに機能を持ち寄って育てる、ゲーム＆ツール集です。</p>
         <p className="hero__owner">
@@ -65,7 +65,7 @@ export default function HomePage() {
           </div>
         ) : (
           <EmptyState title="まだ作品がありません">
-            <p><code>src/contributions/&lt;slug&gt;/works/</code> に作品を置くと、ここに表示されます。</p>
+            <p><code>src/contributions/arcade/</code> や <code>tools/</code> にフォルダを置くと、ここに表示されます。</p>
           </EmptyState>
         )}
       </section>

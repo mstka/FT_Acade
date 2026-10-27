@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import type { WorkMeta } from '../../../types/contribution';
-import styles from './reaction.module.css';
+import styles from './style.module.css';
 
 export const meta: WorkMeta = {
-  category: 'arcade',
+  slug: 'reaction',
   title: '反射神経ゲーム',
   description: '合図が出たらすぐボタンを押そう。反応までの時間をミリ秒で計ります。',
   emoji: '⚡',
   addedAt: '2026-10-27',
+  sample: true,
 };
 
 type Phase = 'idle' | 'waiting' | 'ready' | 'result' | 'early';
 
-const BEST_KEY = 'ft-acade:sample-pixel:reaction:best';
+const BEST_KEY = 'ft-arcade:reaction:best';
 
 function loadBest(): number | null {
   try {

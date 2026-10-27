@@ -1,38 +1,40 @@
-# 自分のページと作品を追加する方法
+# 自己紹介や作品を追加する方法
 
-## しくみ: 1 人 1 フォルダ
+## しくみ: 置き場所で表示先が決まる
 
 ```text
-src/contributions/<自分の slug>/
-├── index.tsx            ← 自己紹介。Who's Who の一覧にカードが並び、押すと専用ページになる
-├── profile.module.css   ← 自己紹介の見た目
-└── works/               ← 作品を置く場所 (いくつでも)
-    ├── renda.tsx        ← 1 ファイル = 1 作品。Arcade か Tools の一覧に並ぶ
-    └── renda.module.css ← その作品の見た目
+src/contributions/
+├── members/<自分の slug>/index.tsx   ← 自己紹介。Who's Who にカードが並び、押すと専用ページ
+├── arcade/<作品の slug>/index.tsx    ← ゲーム・診断。Arcade の一覧に並ぶ
+└── tools/<作品の slug>/index.tsx     ← 便利ツール。Tools の一覧に並ぶ
 ```
 
 | 置くもの | 表示される場所 | URL |
 |---|---|---|
-| `index.tsx` (自己紹介) | Who's Who の一覧のカード → あなたの専用ページ | `/#/members/<slug>` |
-| `works/<作品名>.tsx` | Arcade または Tools の一覧、ホームの新着、あなたの専用ページの作品一覧 | `/#/members/<slug>/<作品名>` |
+| `members/<slug>/` (自己紹介) | Who's Who の一覧のカード → 専用ページ | `/#/members/<slug>` |
+| `arcade/<slug>/` (ゲーム・診断) | Arcade の一覧、ホームの新着 | `/#/arcade/<slug>` |
+| `tools/<slug>/` (便利ツール) | Tools の一覧、ホームの新着 | `/#/tools/<slug>` |
 
-ファイルを置くだけで自動で並びます。**一覧やメニューなど共通のファイルを書きかえる必要はありません。**
+- フォルダを置くだけで自動で並びます。**一覧やメニューなど共通のファイルを書きかえる必要はありません。**
+- 自己紹介と作品は別々です。作品に作者を登録する必要はありません。自己紹介だけ、作品だけでも OK です。
 
 ## 触ってよい範囲
 
-> **参加者が編集してよいのは `src/contributions/<自分の slug>/` の中だけです。**
+> **参加者が編集してよいのは、自分が追加したフォルダの中だけです。**
 >
 > **ほかの人のフォルダ、テンプレート (`src/templates/`)、`src/App.tsx`・`src/registry/`・`src/components/`・`src/pages/`・`src/types/`・`src/styles/`・`package.json`・`package-lock.json`・設定ファイル (`vite.config.ts` など) は、講師の許可なく変更しないでください。**
-> Claude Code に頼むときも「`src/contributions/<slug>/` の中だけを変更して」と伝えてください。
+> Claude Code に頼むときも「`src/contributions/members/tanaka/` の中だけを変更して」のようにフォルダを指定してください。
 
-全員が自分のフォルダだけを触るので、同時に作業しても GitHub でぶつかりません (自己紹介も、Arcade や Tools の作品も同じです)。
+全員が自分のフォルダだけを触るので、同時に作業しても GitHub でぶつかりません。
 
-## slug を決める
+## slug (フォルダ名) を決める
 
-slug は URL とフォルダ名に使う、あなた専用の名前です。
+slug は URL とフォルダ名に使う名前です。
 
-- 半角の **英小文字・数字・ハイフン** だけ (例: `tanaka`, `sato-hanako`, `team2`)
-- ほかの人と同じにしない (先に Who's Who の一覧で確認)
+- 半角の **英小文字・数字・ハイフン** だけ (例: `tanaka`, `sato-hanako`)
+- **自己紹介**は自分の名前にする (例: `members/tanaka`)
+- **作品**はほかの人とかぶらないよう「自分の名前-作品名」にする (例: `arcade/tanaka-renda`、`tools/tanaka-memo`)
+  - 2 人が同じフォルダ名で作ると Pull Request がぶつかります
 
 ## 手順
 
@@ -42,21 +44,21 @@ git switch main
 git pull
 
 # 2. 自分のブランチを作る
-git switch -c feature/<slug>
+git switch -c feature/<自分の名前>
 ```
 
-### 3. テンプレートをコピーする
+### 3. 自己紹介を作る
 
-テンプレート `src/templates/member/` をフォルダごと `src/contributions/` の中にコピーし、名前を `<slug>` にします (エクスプローラー / Finder でコピーして名前を変えても OK)。
+テンプレート `src/templates/member/example/` をフォルダごとコピーし、`src/contributions/members/<自分の slug>/` にします (エクスプローラー / Finder でコピーして名前を変えても OK)。
 
 ```bash
 # Mac
-cp -R src/templates/member src/contributions/tanaka
+cp -R src/templates/member/example src/contributions/members/tanaka
 # Windows (PowerShell)
-Copy-Item -Recurse src/templates/member src/contributions/tanaka
+Copy-Item -Recurse src/templates/member/example src/contributions/members/tanaka
 ```
 
-### 4. 自己紹介を書く (`index.tsx`)
+`index.tsx` の `meta` を書きかえます。
 
 ```tsx
 export const meta: MemberMeta = {
@@ -70,13 +72,21 @@ export const meta: MemberMeta = {
 
 その下の `PROFILE` や `export default function Profile()` の中身を書きかえて、自己紹介ページを作ります。
 
-### 5. 作品を作る (`works/`)
+### 4. ゲームやツールを作る (やりたい人)
 
-`works/omikuji.tsx` がお手本です。ファイル名を変えたり、ファイルを増やしたりして作品を作ります。
+テンプレート `src/templates/work/example/` (おみくじ) をフォルダごとコピーします。
+
+```bash
+# ゲーム・診断なら arcade、便利ツールなら tools にコピーする
+# Mac
+cp -R src/templates/work/example src/contributions/arcade/tanaka-renda
+# Windows (PowerShell)
+Copy-Item -Recurse src/templates/work/example src/contributions/arcade/tanaka-renda
+```
 
 ```tsx
 export const meta: WorkMeta = {
-  category: 'arcade',                     // ← 'arcade' (ゲーム・診断) か 'tools' (便利ツール)
+  slug: 'tanaka-renda',                   // ← フォルダ名と同じ
   title: '連打チャレンジ',                 // ← 作品名
   description: '10 秒で何回押せるか競うゲーム',
   emoji: '👆',
@@ -84,24 +94,24 @@ export const meta: WorkMeta = {
 };
 ```
 
-- ファイル名がそのまま URL になります (`works/renda.tsx` → `/#/members/tanaka/renda`)。半角英小文字・数字・ハイフンだけにしてください。
-- 見た目は同じ名前の `.module.css` に書きます (CSS Modules なので、ほかの人と class 名がぶつかりません)。
-- 画像などを使うときも、自分のフォルダの中に置いてください。
-- 作品がまだ無くても、自己紹介だけで Who's Who には並びます。おみくじが不要なら `works/` の中身を消しても OK です。
+- 見た目は同じフォルダの `style.module.css` に書きます (CSS Modules なので、ほかの人と class 名がぶつかりません)。
+- 画像などを使うときも、そのフォルダの中に置いてください。
+- ゲームやツールはいくつ作っても OK。フォルダを増やすだけです。
 
-### 6. 確認する
+### 5. 確認する
 
 ```bash
-npm run dev     # http://localhost:5173/#/members/<slug> を開く
+npm run dev     # http://localhost:5173/#/members/<slug> や /#/arcade/<slug> を開く
 npm run build   # エラーが出ないことを確認
 ```
 
-### 7. GitHub に送って Pull Request を作る
+### 6. GitHub に送って Pull Request を作る
 
 ```bash
-git add src/contributions/<slug>
-git commit -m "<slug> のページを追加"
-git push -u origin feature/<slug>
+git add src/contributions
+git status       # 自分のフォルダだけが入っているか確認
+git commit -m "tanaka の自己紹介と連打チャレンジを追加"
+git push -u origin feature/<自分の名前>
 ```
 
 GitHub のリポジトリ画面に出る「Compare & pull request」ボタンから PR を作り、テンプレートに沿って書いてください。
@@ -111,11 +121,12 @@ GitHub のリポジトリ画面に出る「Compare & pull request」ボタンか
 | 症状 | 原因と直し方 |
 |---|---|
 | 「表示できなかったページがあります」と出る | 書いてある内容のとおりに直す。多いのは `meta.slug` とフォルダ名の不一致 |
-| Who's Who に自分のカードが出ない | `src/contributions/<slug>/index.tsx` の位置と名前を確認 |
-| 作品が一覧に出ない | `works/` の中にあるか、`meta.category` が `'arcade'` か `'tools'` か、自己紹介 (`index.tsx`) が正しく表示されているか |
-| ページが 404 になる | URL の slug・作品名 (ファイル名) の綴りを確認 |
+| Who's Who に自分のカードが出ない | `src/contributions/members/<slug>/index.tsx` の位置と名前を確認 |
+| ゲーム・ツールが一覧に出ない | `src/contributions/arcade/<slug>/index.tsx` (または `tools/`) の位置と名前を確認 |
+| ページが 404 になる | URL の slug の綴りを確認 |
 | ページに「エラーが起きました」と出る | ブラウザの開発者ツール (F12) の Console を見る。ほかの人のページは影響を受けません |
 | `npm run build` が失敗する | 表示されたファイル名と行番号を確認。わからなければエラー文を Claude Code に見せる |
+| PR が「conflict」になる | 自分のフォルダ以外を触っていないか、作品のフォルダ名がほかの人と同じでないか確認 |
 
 ## 守ること
 

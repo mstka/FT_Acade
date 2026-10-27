@@ -4,7 +4,7 @@
 
 ## 変更内容
 
-<!-- 何を追加・変更したか。例: src/contributions/tanaka/ を追加し、10 秒で何回押せるかのゲームを作った -->
+<!-- 何を追加・変更したか。例: src/contributions/arcade/tanaka-renda/ を追加し、10 秒で何回押せるかのゲームを作った -->
 
 ## 動作確認
 
@@ -12,9 +12,9 @@
 
 ## チェック項目
 
-- [ ] 変更したのは `src/contributions/<自分の slug>/` の中だけ
+- [ ] 変更したのは自分が追加したフォルダ (`src/contributions/members/<slug>/`・`arcade/<slug>/`・`tools/<slug>/`) の中だけ
 - [ ] `meta.slug` がフォルダ名と同じ
 - [ ] `npm run build` が成功した
-- [ ] Who's Who に自分のカードが出て、専用ページ (`/#/members/<slug>`) が開くことを確認した
-- [ ] 作品を追加した場合、Arcade / Tools の一覧に出て、作品ページが動くことを確認した
+- [ ] 自己紹介を追加した場合、Who's Who に自分のカードが出て、専用ページ (`/#/members/<slug>`) が開くことを確認した
+- [ ] ゲーム・ツールを追加した場合、Arcade / Tools の一覧に出て、作品ページが動くことを確認した
 - [ ] 個人情報・パスワード・API キー・社外秘の情報・本人の同意のない写真を含めていない

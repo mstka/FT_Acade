@@ -39,8 +39,6 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
 ];
 
-export const WORK_CATEGORIES: readonly WorkCategory[] = ['arcade', 'tools'];
-
 export function getSection(id: SectionId): SectionInfo {
   const found = SECTIONS.find((c) => c.id === id);
   if (!found) throw new Error(`unknown section: ${id}`);

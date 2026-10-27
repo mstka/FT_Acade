@@ -1,21 +1,21 @@
 // =====================================================================
-// 自分のページを作るためのお手本 (テンプレート) です。このフォルダ自体はサイトには表示されません。
+// 自己紹介ページを作るためのお手本です。このフォルダ自体はサイトには表示されません。
 //
 // 使い方:
-//   1. この src/templates/member フォルダをまるごとコピーして、
-//      src/contributions/<自分の slug>/ という名前にする  (例: src/contributions/tanaka/)
+//   1. この example フォルダをまるごとコピーして、
+//      src/contributions/members/<自分の slug>/ という名前にする  (例: src/contributions/members/tanaka/)
 //   2. 下の meta.slug をフォルダ名と同じにする   ← ここを忘れるとページが表示されません
 //   3. name / emoji / tagline と、下の自己紹介の中身を自分用に書きかえる
-//   4. 作品は works/ フォルダに置く (works/omikuji.tsx がお手本)
 //
-// このファイルが Who's Who の一覧のカードと、/members/<slug> の専用ページになります。
+// このファイルが Who's Who の一覧のカードと、/#/members/<slug> の専用ページになります。
+// ゲームやツールを作るときは src/templates/work/example がお手本です (自己紹介とは別に置きます)。
 // 共通のファイル (App.tsx など) を書きかえる必要はありません。
 // =====================================================================
-import type { MemberMeta } from '../../types/contribution';
+import type { MemberMeta } from '../../../types/contribution';
 import styles from './profile.module.css';
 
 export const meta: MemberMeta = {
-  slug: 'template', // ← フォルダ名と同じにする (半角英小文字・数字・ハイフン)
+  slug: 'example', // ← フォルダ名と同じにする (半角英小文字・数字・ハイフン)
   name: 'あなたの名前', // ← 画面に出る名前 (公開してよい名前だけ)
   emoji: '🙋', // ← アイコンになる絵文字
   tagline: 'ひとことで自己紹介', // ← 一覧のカードに出るひとこと

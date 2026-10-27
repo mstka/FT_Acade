@@ -1,4 +1,4 @@
-# FT_Acade — Claude Code 向けガイド
+# FT_Arcade — Claude Code 向けガイド
 
 For Two の勉強会で、参加者みんなが 1 つのリポジトリに機能を持ち寄って育てる Web アプリです。
 React + TypeScript + Vite + React Router (HashRouter)。仕様は [SPEC.md](SPEC.md)、参加者向けの説明は [README.md](README.md) と [CONTRIBUTING.md](CONTRIBUTING.md)。
@@ -12,32 +12,33 @@ GitHub: https://github.com/mstka/FT_Acade
 
 ## 変更してよい範囲 【最重要】
 
-- **参加者のために作業するときは、`src/contributions/<その人の slug>/` の中だけを変更してください。**
+- **参加者のために作業するときは、その人が追加したフォルダ (`src/contributions/members/<slug>/`・`arcade/<slug>/`・`tools/<slug>/`) の中だけを変更してください。**
 - `src/App.tsx`・`src/registry/`・`src/components/`・`src/pages/`・`src/types/`・`src/styles/`・`package.json`・`package-lock.json`・設定ファイル (`vite.config.ts`, `tsconfig*.json`, `eslint.config.js`, `vercel.json`, `.github/`) は、ユーザーが「講師として共通部分を変更する」と明言したときだけ変更してください。
 - 新しい npm パッケージを追加しないでください (`package-lock.json` が衝突の原因になります)。必要そうなら、まず講師に相談するようユーザーに伝えてください。
-- ほかの参加者のフォルダや、テンプレート `src/templates/member/` も変更しない。
+- ほかの参加者のフォルダや、テンプレート `src/templates/` も変更しない。
 - ファイルを置くだけで一覧に自動で並びます。共通ファイルへの登録は不要です。
 
-## 1 人 1 フォルダの構成
+## フォルダの構成 (置き場所で表示先が決まる)
 
 ```text
-src/contributions/<slug>/
-├── index.tsx            自己紹介 (export const meta: MemberMeta + export default)。Who's Who の一覧カード → /members/<slug>
-├── profile.module.css
-└── works/
-    ├── <作品名>.tsx      作品 (export const meta: WorkMeta + export default)。Arcade / Tools の一覧 → /members/<slug>/<作品名>
-    └── <作品名>.module.css
+src/contributions/
+├── members/<slug>/index.tsx   自己紹介 (MemberMeta)。Who's Who の一覧カード → /members/<slug>
+├── arcade/<slug>/index.tsx    ゲーム・診断 (WorkMeta)。Arcade の一覧 → /arcade/<slug>
+└── tools/<slug>/index.tsx     便利ツール (WorkMeta)。Tools の一覧 → /tools/<slug>
 ```
 
-- お手本は `src/templates/member/` (サイトには出ない)。フォルダごと `src/contributions/<slug>/` にコピーする。
-- `index.tsx` の `meta.slug` はフォルダ名と同じ。slug と作品のファイル名は半角英小文字・数字・ハイフンのみ。
-- `MemberMeta`: `slug` / `name` / `emoji` / `tagline` (必須)、`addedAt` (任意)。`sample` は教材用サンプル専用なので参加者は付けない。
-- `WorkMeta`: `category` (`'arcade'` か `'tools'`) / `title` / `description` / `emoji` (必須)、`addedAt` (任意)。
-- 型は `import type { MemberMeta } from '../../types/contribution'` (作品は `'../../../types/contribution'`)。
+- 自己紹介と作品は独立。作品に作者を登録する仕組みはない。
+- お手本は `src/templates/member/example/` (自己紹介) と `src/templates/work/example/` (作品)。サイトには出ない。フォルダごと上の置き場所にコピーする。
+- 作品の slug はほかの人とかぶらないよう `<名前>-<作品名>` (例: `tanaka-renda`) にする。
+- `index.tsx` の `meta.slug` はフォルダ名と同じ。半角英小文字・数字・ハイフンのみ。
+- `MemberMeta`: `slug` / `name` / `emoji` / `tagline` (必須)、`addedAt` (任意)。
+- `WorkMeta`: `slug` / `title` / `description` / `emoji` (必須)、`addedAt` (任意)。
+- `sample` は教材用サンプル専用なので参加者は付けない。
+- 型は `import type { MemberMeta, WorkMeta } from '../../../types/contribution'`。
 - スタイルは同じフォルダの `*.module.css` (CSS Modules) に書く。共通の色などは `var(--pink)` などの CSS 変数を使ってよい。
 - 共通部品として使ってよい class: `btn`, `btn--primary`, `muted`, `chip`。
 - 実在の人物の個人情報、パスワード、API キー、社外秘の情報、外部の有料 API は使わない。データは架空のものにする。
-- localStorage を使うときはキーを `ft-acade:<slug>:...` にし、try / catch で囲む。
+- localStorage を使うときはキーを `ft-arcade:<slug>:...` にし、try / catch で囲む。
 
 ## コマンド
 

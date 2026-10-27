@@ -9,7 +9,7 @@
 | Git | `git --version` | `git version 2.x` |
 | Node.js 22 | `node -v` | `v22.13` 以上 |
 | npm | `npm -v` | `10.x` 以上 |
-| GitHub アカウント | — | ログインでき、FT_Acade リポジトリへの招待を承認済み |
+| GitHub アカウント | — | ログインでき、FT_Arcade リポジトリへの招待を承認済み |
 | Vercel アカウント | — | GitHub アカウントでサインアップ済み |
 | Claude Code | `claude --version` | バージョンが表示される |
 
@@ -64,7 +64,7 @@ npx vercel
 | Set up and deploy? | `Y` |
 | Which scope? | 自分のアカウント |
 | Link to existing project? | `N` |
-| Project name | そのまま Enter (または `ft-acade-<slug>`) |
+| Project name | そのまま Enter (または `ft-arcade-<slug>`) |
 | In which directory is your code located? | `./` のまま Enter |
 | Want to modify these settings? | `N` (Vite / `npm run build` / `dist` になっていれば OK) |
 
@@ -88,8 +88,8 @@ npx vercel
 git switch main
 git pull
 git switch -c feature/<slug>
-# src/templates/member を src/contributions/<slug> にコピーして、
-# index.tsx (自己紹介) と works/ (作品) を編集
+# 自己紹介: src/templates/member/example を src/contributions/members/<slug> にコピーして編集
+# 作品 (任意): src/templates/work/example を src/contributions/arcade/<slug>-<作品名> (または tools/) にコピーして編集
 npm run dev
 npm run build
 git add src/contributions/<slug>

@@ -9,7 +9,7 @@ interface Props {
   category: WorkCategory;
 }
 
-/** Arcade / Tools: みんなの作品の一覧 */
+/** Arcade / Tools: 作品の一覧 */
 export default function CategoryPage({ category }: Props) {
   const info = getSection(category);
   useDocumentTitle(info.label);
@@ -36,9 +36,7 @@ export default function CategoryPage({ category }: Props) {
           </div>
         ) : (
           <EmptyState title={`${info.label} の作品はまだありません`}>
-            <p>
-              自分のフォルダの <code>works/</code> に、<code>meta.category</code> を <code>&quot;{category}&quot;</code> にした作品を置くと、ここに並びます。
-            </p>
+            <p><code>src/contributions/{category}/&lt;作品の slug&gt;/index.tsx</code> を置くと、ここに並びます。</p>
           </EmptyState>
         )}
       </section>

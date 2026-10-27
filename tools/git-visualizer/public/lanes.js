@@ -227,6 +227,16 @@ function renderLanes() {
     const dir = y > gapMid ? -1 : 1;
     return `M${x},${y} L${bx - 12},${y} Q${bx},${y} ${bx},${y + dir * 12} L${bx},${gapMid}`;
   };
+  // the same wire drawn from the gap out to the tip, so that "PC wire + GitHub wire" reads PC → GitHub
+  // (the flow animation follows the path direction: forward = push, reverse = pull)
+  const wireFromGap = (x, y, bx) => {
+    const dir = y > gapMid ? -1 : 1;
+    return `M${bx},${gapMid} L${bx},${y + dir * 12} Q${bx},${y} ${bx - 12},${y} L${x},${y}`;
+  };
+  const arrow = (bx, up, color, dim) => {
+    const cy = up ? gapMid - 22 : gapMid + 22, d = up ? -4 : 4;
+    return `<path class="bridge-arrow${dim}" stroke="${color}" d="M${bx - 6},${cy - d} L${bx},${cy + d} L${bx + 6},${cy - d}"/>`;
+  };
   // a wire's vertical part must pass to the right of every lane it crosses
   const allLanes = sectors.flatMap(sec => [...sec.lanes, ...(ui.showMerged ? sec.anon : [])]).filter(l => l.y !== undefined);
   const headLaneY = sectors[1].lanes.find(l => l.ref.short === s.head.branch)?.y;
@@ -256,7 +266,9 @@ function renderLanes() {
       linked.add(rl);
       const bx = slot(Math.max(Math.max(xl + wipPad, xr) + 30, clearOf(l.y, rl.y)));
       const text = st.cls === 'ok' ? '✓' : st.badge;
-      bridges += `<path class="bridge st-${st.cls}${dim}" stroke="${color}" d="${wire(xl, l.y, bx)}"/><path class="bridge st-${st.cls}${dim}" stroke="${color}" d="${wire(xr, rl.y, bx)}"/>`;
+      bridges += `<path class="bridge st-${st.cls}${dim}" stroke="${color}" d="${wire(xl, l.y, bx)}"/><path class="bridge st-${st.cls}${dim}" stroke="${color}" d="${wireFromGap(xr, rl.y, bx)}"/>`;
+      if (r.ahead) over += arrow(bx, true, color, dim);
+      if (r.behind) over += arrow(bx, false, color, dim);
       over += `<g class="bridge-badge st-${st.cls}${dim}" data-ref="${esc(r.name)}"><title>${esc(r.short)} ⇄ ${esc(r.upstream)}\n${esc(st.say)}</title>
         <rect x="${bx - (text.length * 5 + 14)}" y="${gapMid - 12}" width="${text.length * 10 + 28}" height="24" rx="12"/>
         <text x="${bx}" y="${gapMid + 5}" text-anchor="middle">${esc(text)}</text></g>`;

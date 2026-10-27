@@ -32,7 +32,7 @@ export default function WhoIsWhoPage() {
           </div>
         ) : (
           <EmptyState emoji="🪪" title="まだメンバーがいません">
-            <p><code>src/templates/member</code> を <code>src/contributions/</code> にコピーして、自分のページを作ってみよう。</p>
+            <p><code>src/templates/member/example</code> を <code>src/contributions/members/</code> にコピーして、自分のページを作ってみよう。</p>
           </EmptyState>
         )}
       </section>

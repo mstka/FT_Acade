@@ -1,19 +1,17 @@
 import { Link, useParams } from 'react-router-dom';
 import { findMember } from '../registry/contributions';
 import ErrorBoundary from '../components/ErrorBoundary';
-import WorkCard from '../components/WorkCard';
-import EmptyState from '../components/EmptyState';
 import NotFoundPage from './NotFoundPage';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 
-/** /members/:slug — その人の専用ページ (自己紹介 + 作品の一覧) */
+/** /members/:slug — その人の自己紹介ページ */
 export default function MemberPage() {
   const { slug = '' } = useParams();
   const member = findMember(slug);
   useDocumentTitle(member?.meta.name);
 
   if (!member) return <NotFoundPage />;
-  const { meta, Profile, works } = member;
+  const { meta, Profile } = member;
 
   return (
     <div className="page">
@@ -41,20 +39,9 @@ export default function MemberPage() {
         </ErrorBoundary>
       </section>
 
-      <section aria-labelledby="works-title">
-        <h2 id="works-title" className="section-title">{meta.name} さんの作品</h2>
-        {works.length ? (
-          <div className="work-grid">
-            {works.map((w) => (
-              <WorkCard key={w.path} work={w} showCategory showAuthor={false} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState emoji="🛠️" title="作品はこれから">
-            <p><code>src/contributions/{meta.slug}/works/</code> にファイルを置くと、ここに並びます。</p>
-          </EmptyState>
-        )}
-      </section>
+      <p>
+        <Link to="/who-is-who" className="btn">← メンバー一覧へ戻る</Link>
+      </p>
     </div>
   );
 }

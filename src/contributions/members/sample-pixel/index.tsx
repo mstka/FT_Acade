@@ -1,4 +1,4 @@
-import type { MemberMeta } from '../../types/contribution';
+import type { MemberMeta } from '../../../types/contribution';
 import styles from './profile.module.css';
 
 // 教材用の架空のメンバーです。
@@ -12,7 +12,7 @@ export const meta: MemberMeta = {
 };
 
 const PROFILE = {
-  hello: 'こんにちは、ピクセル太郎です！レトロゲームが大好きで、FT_Acade では Arcade の作品を担当しています。',
+  hello: 'こんにちは、ピクセル太郎です！レトロゲームが大好きで、FT_Arcade では Arcade の作品を担当しています。',
   likes: ['ドット絵', '格闘ゲーム', 'カレーパン'],
   facts: [
     { label: '最近ハマっていること', value: '反射神経ゲームで 200 ms を切ること' },

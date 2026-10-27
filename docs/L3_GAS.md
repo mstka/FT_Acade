@@ -5,7 +5,7 @@ L3 は宿題・発展課題です。**L1 / L2 は GAS が無くても全部動�
 ## 構成
 
 ```text
-ブラウザ (FT_Acade) ──/api/scores──▶ Vercel Function (api/scores.ts) ──▶ GAS ウェブアプリ ──▶ Google スプレッドシート
+ブラウザ (FT_Arcade) ──/api/scores──▶ Vercel Function (api/scores.ts) ──▶ GAS ウェブアプリ ──▶ Google スプレッドシート
 ```
 
 - ブラウザは GAS に直接アクセスしません。Vercel Function が中継するので、GAS の URL と合言葉はブラウザに渡りません。

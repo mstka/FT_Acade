@@ -19,7 +19,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('[FT_Acade]', this.props.label ?? '', error, info.componentStack);
+    console.error('[FT_Arcade]', this.props.label ?? '', error, info.componentStack);
   }
 
   render() {

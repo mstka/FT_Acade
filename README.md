@@ -1,8 +1,10 @@
-# FT_Acade
+# FT_Arcade
 
 For Two の勉強会で、参加者みんなが 1 つの GitHub リポジトリに機能を持ち寄って育てる Web アプリです。
 **Arcade**(ミニゲーム・診断)・**Who's Who**(メンバー紹介)・**Tools**(業務効率化ミニツール)の 3 カテゴリがあります。
-Who's Who にはメンバー 1 人 1 枚のカードが並び、押すとその人の専用ページ (自己紹介と作品の一覧) に移ります。
+Who's Who にはメンバー 1 人 1 枚のカードが並び、押すとその人の自己紹介ページに移ります。
+
+> GitHub のリポジトリ名とフォルダ名は `FT_Acade` のままです (アプリの名前が FT_Arcade)。
 
 ---
 
@@ -46,12 +48,17 @@ npx vercel               # 自分のプロジェクトを作る (質問はすべ
 
 ## 自分のページを作る (L2)
 
-1 人 1 フォルダ (`src/contributions/<自分の slug>/`) に、自己紹介と作品を置きます。
+置き場所で表示先が決まります。自己紹介と作品は別々で、作品に作者を登録する必要はありません。
 
-1. テンプレート `src/templates/member/` をフォルダごとコピーして `src/contributions/<自分の slug>/` にする (例: `tanaka`)
-2. `index.tsx` (自己紹介) の `meta.slug` をフォルダ名と同じにして、名前・ひとこと・自己紹介を書きかえる → **Who's Who の一覧にカードが並び、押すと専用ページ** になります
-3. `works/` に作品を作る (`works/omikuji.tsx` がお手本)。`meta.category` を `arcade` か `tools` にすると、その一覧に並びます
-4. `npm run dev` で `/#/members/<slug>` を開いて確認 → ブランチを切って commit / push → Pull Request
+| 作るもの | コピーするテンプレート | 置き場所 | 表示先 |
+|---|---|---|---|
+| 自己紹介 | `src/templates/member/example/` | `src/contributions/members/<自分の名前>/` | Who's Who のカード → 専用ページ |
+| ゲーム・診断 | `src/templates/work/example/` | `src/contributions/arcade/<自分の名前>-<作品名>/` | Arcade の一覧 |
+| 便利ツール | `src/templates/work/example/` | `src/contributions/tools/<自分の名前>-<作品名>/` | Tools の一覧 |
+
+1. テンプレートをフォルダごとコピーして、上の置き場所に置く
+2. `index.tsx` の `meta.slug` をフォルダ名と同じにして、中身を書きかえる
+3. `npm run dev` で確認 → ブランチを切って commit / push → Pull Request
 
 **共通のファイル (`App.tsx`・ルーター・一覧など) は書きかえ不要です。** みんな自分のフォルダだけを触るので、同時に作業しても GitHub でぶつかりません。
 くわしいルールは [CONTRIBUTING.md](CONTRIBUTING.md) にあります。
@@ -91,22 +98,22 @@ npx vercel               # 自分のプロジェクトを作る (質問はすべ
 src/
 ├── main.tsx / App.tsx        アプリの入口とルーティング (HashRouter)
 ├── components/               ヘッダー・カード・ErrorBoundary などの共通部品
-├── pages/                    ホーム / カテゴリ / メンバー / About / 404
+├── pages/                    ホーム / カテゴリ / Who's Who / メンバー / 作品 / About / Git / 404
 ├── registry/contributions.ts src/contributions/ の自己紹介と作品を自動で登録
 ├── types/contribution.ts     自己紹介・作品が守る「型」(meta の形)
 ├── lib/backend.ts            [L3] API 呼び出し。未設定ならモック
-├── templates/member/         自分のフォルダを作るためのお手本 (サイトには出ない)
-└── contributions/            ← 参加者が触るのはここ (自分のフォルダだけ)
-    ├── sample-pixel/         架空のサンプルメンバー: 反射神経ゲーム
-    ├── sample-bit/           架空のサンプルメンバー: 人物当てクイズ
-    └── sample-dot/           架空のサンプルメンバー: 文章整形・文字数カウンター
+├── templates/                お手本 (サイトには出ない): member/example (自己紹介)・work/example (作品)
+└── contributions/            ← 参加者が触るのはここ (自分が追加したフォルダだけ)
+    ├── members/              自己紹介 → Who's Who (サンプル: sample-pixel / sample-bit / sample-dot)
+    ├── arcade/               ゲーム・診断 → Arcade (サンプル: reaction / character-quiz)
+    └── tools/                便利ツール → Tools (サンプル: text-formatter)
 api/                          [L3] Vercel Functions (GAS への中継)。未設定ならダミーデータ
 docs/                         手順書・講師用台本・GAS サンプル
 tools/git-visualizer/         Git ビジュアライザー (ローカル専用の補助ツール。本番ビルドには含まれない)
 ```
 
 - **自動登録は Vite の機能 `import.meta.glob` を使っています。** パスは文字列リテラルで書く必要があります (Vite の制約)。
-- URL は `https://<あなたのプロジェクト>.vercel.app/#/members/tanaka` (専用ページ)、`.../#/members/tanaka/renda` (作品) のように `#` が入ります (HashRouter)。これで Vercel のリライト設定が不要になります。
+- URL は `https://<あなたのプロジェクト>.vercel.app/#/members/tanaka` (自己紹介)、`.../#/arcade/tanaka-renda` (作品) のように `#` が入ります (HashRouter)。これで Vercel のリライト設定が不要になります。
 - フォルダ名や `meta` に誤りがあるページは表示されず、ホーム上部に直し方が表示されます。ページの中でエラーが起きても、ほかの画面は動き続けます。
 
 ## 動作環境

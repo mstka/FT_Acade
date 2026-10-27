@@ -17,10 +17,11 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="arcade" element={<CategoryPage category="arcade" />} />
+          <Route path="arcade/:slug" element={<WorkPage category="arcade" />} />
           <Route path="who-is-who" element={<WhoIsWhoPage />} />
           <Route path="tools" element={<CategoryPage category="tools" />} />
+          <Route path="tools/:slug" element={<WorkPage category="tools" />} />
           <Route path="members/:slug" element={<MemberPage />} />
-          <Route path="members/:slug/:work" element={<WorkPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="git" element={<GitVisualizerPage />} />
           <Route path="*" element={<NotFoundPage />} />

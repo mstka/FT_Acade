@@ -2,13 +2,13 @@
 
 ## ゴール
 
-- **全員**: FT_Acade を clone → ローカル起動 → 自分の Vercel に公開 → 環境変数で名前を表示 (L1)
+- **全員**: FT_Arcade を clone → ローカル起動 → 自分の Vercel に公開 → 環境変数で名前を表示 (L1)
 - **早く終わった人**: 自分のページを追加して Pull Request (L2)
 - **宿題・発展**: GAS バックエンドとつなぐ (L3)
 
 ## 前日までの準備 (講師)
 
-- [ ] GitHub: FT_Acade を push し、参加者をコラボレーターに招待 (または Organization のチームに追加)
+- [ ] GitHub: FT_Arcade を push し、参加者をコラボレーターに招待 (または Organization のチームに追加)
 - [ ] GitHub: `main` のブランチ保護 (Settings → Branches → Add rule)
   - Require a pull request before merging / Require status checks to pass (`build`) を ON
 - [ ] 参加者の事前準備の確認 (Git / Node.js 22 / GitHub 招待の承認 / Vercel アカウント / Claude Code)
@@ -21,11 +21,11 @@
 
 | 時間 | 内容 | 講師がやること | 参加者がやること |
 |---|---|---|---|
-| 0:00–0:05 | イントロ | 今日のゴールと FT_Acade の完成形 (統合版 URL) を見せる | 聞く |
+| 0:00–0:05 | イントロ | 今日のゴールと FT_Arcade の完成形 (統合版 URL) を見せる | 聞く |
 | 0:05–0:12 | Git と GitHub のしくみ | Git ビジュアライザーで「PC と GitHub」「ブランチ」「push / pull」を図で説明。講師の画面でブランチを作り commit / push して、図が変わる様子を見せる | 聞く |
 | 0:12–0:22 | L1 前半: ローカル起動 | `git clone` → `npm ci` → `npm run dev` を一緒に実行 | 3 つのサンプルを触る。右上の `local` / `Guest` を確認 |
 | 0:22–0:40 | L1 後半: Vercel 公開 | `npx vercel` の質問の答え方 → 環境変数 → **再デプロイが必要** なことを強調 | 自分の URL で名前と `production` が出たら、チャットに URL を貼る |
-| 0:40–0:52 | L2: 自分のページ | `src/templates/member` を `src/contributions/<slug>` にコピー → 自己紹介の `meta` を変更 → Who's Who にカードが増え、`works/` の作品が Arcade に並ぶのを見せる。ブランチ → commit → push → PR まで実演 | 自分のページを作る。終わった人は PR まで |
+| 0:40–0:52 | L2: 自分のページ | `src/templates/member/example` を `src/contributions/members/<slug>` にコピー → `meta` を変更 → Who's Who にカードが増えるのを見せる。ゲームは `src/templates/work/example` を `arcade/<slug>-<作品名>` にコピーすると Arcade に並ぶ。ブランチ → commit → push → PR まで実演 | 自分のページを作る。終わった人は PR まで |
 | 0:52–0:58 | 振り返り | PR を 1〜2 件一緒にレビューしてマージ。統合版に反映されるのを見せる | 質問 |
 | 0:58–1:00 | 宿題 | L2 の続き / L3 (GAS) の案内 | — |
 
@@ -44,7 +44,7 @@
 
 ## PR レビューのチェックリスト
 
-- [ ] **表示**: Who's Who にカードが出て、専用ページ `/#/members/<slug>` が開く。作品は Arcade / Tools の一覧とホームの新着に出る
+- [ ] **表示**: 自己紹介は Who's Who にカードが出て `/#/members/<slug>` が開く。作品は Arcade / Tools の一覧とホームの新着に出る
 - [ ] **操作**: ボタンや入力が実際に動く。エラーが出ない
 - [ ] **ビルド**: CI が緑
 - [ ] **影響範囲**: 変更が `src/contributions/<slug>/` の中だけ (Files changed タブで確認)

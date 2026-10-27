@@ -6,9 +6,9 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header__inner">
-        <Link to="/" className="logo" aria-label="FT_Acade ホーム">
+        <Link to="/" className="logo" aria-label="FT_Arcade ホーム">
           <span className="logo__mark" aria-hidden="true">▶</span>
-          <span className="logo__text">FT_Acade</span>
+          <span className="logo__text">FT_Arcade</span>
         </Link>
         <nav className="nav" aria-label="メインメニュー">
           <NavLink to="/" end className="nav__link">ホーム</NavLink>

@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react';
 import type { WorkMeta } from '../../../types/contribution';
-import styles from './text-formatter.module.css';
+import styles from './style.module.css';
 
 export const meta: WorkMeta = {
-  category: 'tools',
+  slug: 'text-formatter',
   title: '文章整形・文字数カウンター',
   description: '文字数や行数を数えて、余分な空白や空行を整えます。整えた文章はワンクリックでコピー。',
   emoji: '📝',
   addedAt: '2026-10-27',
+  sample: true,
 };
 
 interface Options {
@@ -24,7 +25,7 @@ const OPTION_LABELS: Record<keyof Options, string> = {
   fullWidthSpace: '全角スペースを半角にする',
 };
 
-const SAMPLE = '  FT_Acade   へようこそ！  \n\n\n\nこれは　文章整形ツールの   サンプルです。\n   空白や空行を   整えてみましょう。  ';
+const SAMPLE = '  FT_Arcade   へようこそ！  \n\n\n\nこれは　文章整形ツールの   サンプルです。\n   空白や空行を   整えてみましょう。  ';
 
 const FULL_WIDTH_SPACE = String.fromCharCode(0x3000);
 

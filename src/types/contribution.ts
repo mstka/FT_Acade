@@ -1,31 +1,33 @@
 import type { ComponentType } from 'react';
 
 /**
- * 1 人に 1 つのフォルダ: src/contributions/<slug>/
- *   index.tsx          … その人の自己紹介ページ (Who's Who の一覧にカードで並ぶ)
- *   works/<作品名>.tsx  … その人が作った作品 (Arcade / Tools の一覧に並ぶ)。いくつでも置ける
+ * 置き場所で表示先が決まる:
+ *   src/contributions/members/<slug>/index.tsx … 自己紹介 (Who's Who)
+ *   src/contributions/arcade/<slug>/index.tsx  … ゲーム・診断 (Arcade)
+ *   src/contributions/tools/<slug>/index.tsx   … 便利ツール (Tools)
+ * 自己紹介と作品はそれぞれ独立していて、作品に作者を登録する必要はない。
  */
 
-/** 作品を並べるカテゴリ。Who's Who はメンバーの一覧なので、作品のカテゴリには含めない */
 export type WorkCategory = 'arcade' | 'tools';
 
-/** src/contributions/<slug>/index.tsx の meta */
+/** src/contributions/members/<slug>/index.tsx の meta */
 export interface MemberMeta {
   slug: string; // URL とフォルダ名に一致させる。例: tanaka
   name: string; // 表示名 (公開してよい名前のみ)
   emoji: string; // カードとページのアイコン
   tagline: string; // ひとこと (一覧のカードに出る)
-  addedAt?: string; // 追加した日 (YYYY-MM-DD)。並び順に使う
+  addedAt?: string; // 追加した日 (YYYY-MM-DD)
   sample?: boolean; // 教材用のサンプルなら true
 }
 
-/** src/contributions/<slug>/works/<作品名>.tsx の meta。作品の URL はファイル名から決まる */
+/** src/contributions/arcade/<slug>/index.tsx と tools/<slug>/index.tsx の meta */
 export interface WorkMeta {
-  category: WorkCategory;
+  slug: string; // URL とフォルダ名に一致させる。例: tanaka-renda
   title: string; // 作品名
   description: string; // 1〜2 文の説明
   emoji: string; // カードに出す絵文字
   addedAt?: string; // 追加した日 (YYYY-MM-DD)。ホームの「新着」の並び順に使う
+  sample?: boolean; // 教材用のサンプルなら true
 }
 
 export interface MemberModule {

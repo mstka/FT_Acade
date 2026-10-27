@@ -1,21 +1,27 @@
 // =====================================================================
-// 作品のお手本です。works/ フォルダの中の 1 ファイルが 1 つの作品になります。
+// ゲーム・ツール (作品) を作るためのお手本です。このフォルダ自体はサイトには表示されません。
 //
-//   - ファイル名がそのまま URL になります: works/omikuji.tsx → /members/<slug>/omikuji
-//     (ファイル名は半角英小文字・数字・ハイフンだけ)
-//   - meta.category を 'arcade' にすると Arcade に、'tools' にすると Tools に並びます
-//   - 作品はいくつ置いてもOK。ファイルを増やすだけで一覧に増えます
+// 使い方:
+//   1. この example フォルダをまるごとコピーして、置き場所で表示先を選ぶ
+//        ゲーム・診断 → src/contributions/arcade/<作品の slug>/
+//        便利ツール   → src/contributions/tools/<作品の slug>/
+//      作品の slug はほかの人とかぶらないよう「自分の名前-作品名」にする (例: tanaka-renda)
+//   2. 下の meta.slug をフォルダ名と同じにする   ← ここを忘れると表示されません
+//   3. title / description / emoji を書きかえて、下の画面を自由に作る
+//
+// URL は /#/arcade/<slug> または /#/tools/<slug> になります。作者の登録は不要です。
+// 共通のファイル (App.tsx など) を書きかえる必要はありません。
 // =====================================================================
 import { useState } from 'react';
 import type { WorkMeta } from '../../../types/contribution';
-import styles from './omikuji.module.css';
+import styles from './style.module.css';
 
 export const meta: WorkMeta = {
-  category: 'arcade', // ← 'arcade' か 'tools'
+  slug: 'example', // ← フォルダ名と同じにする (半角英小文字・数字・ハイフン)
   title: '今日のおみくじ', // ← 作品名
   description: 'ボタンを押すと今日の運勢がわかります。', // ← 1〜2 文の説明
   emoji: '🎴', // ← カードに出る絵文字
-  addedAt: '2026-10-28', // ← 追加した日
+  addedAt: '2026-10-28', // ← 追加した日 (新着の並び順に使う)
 };
 
 const FORTUNES = ['🌟 大吉: 今日は何をやってもうまくいく！', '😊 中吉: いいことがありそう', '🙂 小吉: コツコツいこう', '🍀 末吉: 小さな幸せを見つけよう'];

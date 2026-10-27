@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import type { WorkMeta } from '../../../types/contribution';
-import styles from './character-quiz.module.css';
+import styles from './style.module.css';
 
 export const meta: WorkMeta = {
-  category: 'arcade',
+  slug: 'character-quiz',
   title: '架空の人物当てクイズ',
   description: 'ヒントを読んで、どのキャラクターのことか当てよう。登場人物はすべて架空です。',
   emoji: '🕵️',
   addedAt: '2026-10-27',
+  sample: true,
 };
 
 interface Question {
