@@ -1,0 +1,12 @@
+{
+  "name": "github-visualizer",
+  "version": "1.0.0",
+  "description": "Real-time local web viewer for Git branch topology (local & remote)",
+  "main": "server.js",
+  "bin": { "github-visualizer": "server.js" },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}

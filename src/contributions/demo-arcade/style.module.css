@@ -1,0 +1,18 @@
+.wrap { display: flex; flex-direction: column; gap: 16px; }
+.howto { margin: 0; color: var(--muted); }
+.pad {
+  display: grid; place-items: center; min-height: 240px; width: 100%; padding: 20px;
+  border: none; border-radius: var(--radius); cursor: pointer; color: #fff;
+  font-size: 28px; font-weight: 800; transition: background 0.15s;
+  background: linear-gradient(135deg, var(--pink), #c85cff);
+}
+.pad > span { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.waiting { background: #3a3f73; color: var(--muted); }
+.ready { background: var(--green); color: #0c2a1d; }
+.result { background: var(--surface); border: 2px solid var(--cyan); }
+.early { background: var(--orange); color: #2b1400; }
+.now { font-size: 64px; font-family: var(--font-pixel); }
+.ms { font-size: 48px; font-family: var(--font-pixel); }
+.rank { font-size: 20px; }
+.again { font-size: 14px; font-weight: 500; opacity: 0.8; }
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }

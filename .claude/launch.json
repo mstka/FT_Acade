@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ft-acade-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 5173
+    },
+    {
+      "name": "git-visualizer",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tools/git-visualizer/server.js"],
+      "port": 4321
+    }
+  ]
+}

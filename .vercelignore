@@ -1,0 +1,5 @@
+# Vercel に送らないもの (ローカル専用ツールと手元の作業ファイル)
+tools/
+.claude/
+node_modules/
+dist/

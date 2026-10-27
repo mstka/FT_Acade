@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Visualizer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M9 4v24M9 16c0-6 14-4 14-10' stroke='%234f8cff' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='9' cy='26' r='4' fill='%234f8cff'/%3E%3Ccircle cx='23' cy='6' r='4' fill='%23ff6b9a'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M9 4v24M9 16c0-6 14-4 14-10" stroke="var(--blue)" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="9" cy="26" r="4" fill="var(--blue)"/><circle cx="23" cy="6" r="4" fill="var(--pink)"/></svg>
+      <span>Git<b>ビジュアライザー</b></span>
+    </div>
+
+    <div class="menu-wrap">
+      <button id="repo-btn" class="repo-btn" type="button">📦 <span id="repo-name">リポジトリを選ぶ</span> <span class="caret">▾</span></button>
+      <div id="repo-menu" class="pop-menu hidden">
+        <form id="open-form" class="open">
+          <input id="repo-input" placeholder="フォルダのパス / owner/repo" autocomplete="off" spellcheck="false">
+          <button type="submit" class="primary">開く</button>
+        </form>
+        <div id="recent" class="recent"></div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <span id="live" class="live off" title="リアルタイム接続"><i></i><span>オフライン</span></span>
+    <button id="fetch-now" class="ghost-btn" type="button" title="GitHub の最新の状態を取得 (git fetch)">⟳ <span id="fetch-label">GitHub を確認</span></button>
+    <div class="menu-wrap">
+      <button id="settings-btn" class="icon-btn" type="button" title="設定">⚙</button>
+      <div id="settings-menu" class="pop-menu right hidden">
+        <label>GitHub を自動で確認
+          <select id="fetch-interval">
+            <option value="0">しない</option><option value="15">15秒ごと</option><option value="30">30秒ごと</option>
+            <option value="60">1分ごと</option><option value="300">5分ごと</option><option value="900">15分ごと</option>
+          </select>
+        </label>
+        <label>読み込むコミット数
+          <select id="limit"><option>200</option><option>500</option><option>1000</option><option>3000</option><option>10000</option></select>
+        </label>
+        <label class="check"><input type="checkbox" id="show-merged" checked> マージ済みの過去ブランチも表示</label>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main class="main">
+      <nav class="tabs">
+        <div class="seg">
+          <button class="tab active" data-tab="lanes">🗺️ マップ</button>
+          <button class="tab" data-tab="graph">🌿 グラフ</button>
+          <button class="tab" data-tab="sync">🔄 同期</button>
+        </div>
+        <input id="filter" class="hidden" type="search" placeholder="🔍 コミットを検索" spellcheck="false">
+      </nav>
+      <section id="view-lanes" class="view lanes-view"></section>
+      <section id="view-graph" class="view hidden"><div id="graph-scroll" class="graph-scroll card"><div id="graph-inner" class="graph-inner"></div></div></section>
+      <section id="view-sync" class="view hidden"></section>
+      <div id="welcome" class="welcome">
+        <div class="welcome-card card">
+          <div class="big">🗺️</div>
+          <h1>ブランチの様子を、地図みたいに。</h1>
+          <p>左上の <b>📦 リポジトリを選ぶ</b> から、フォルダのパスか <code>owner/repo</code> を入力してください。</p>
+        </div>
+      </div>
+    </main>
+
+    <aside class="panel" id="panel">
+      <div class="ptabs">
+        <button class="ptab active" data-ptab="info">💡 くわしく</button>
+        <button class="ptab" data-ptab="log">🕘 できごと <span id="log-count" class="count hidden"></span></button>
+        <button class="ptab" data-ptab="help">❓ 見かた</button>
+      </div>
+      <div class="pbody" id="pbody"></div>
+    </aside>
+  </div>
+
+  <div id="toasts" class="toasts"></div>
+  <script src="app.js"></script>
+  <script src="lanes.js"></script>
+</body>
+</html>

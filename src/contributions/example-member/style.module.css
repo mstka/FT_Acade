@@ -1,0 +1,11 @@
+/* このファイルの class 名は、このページの中だけで使われます (CSS Modules)。ほかの人のページとぶつかりません */
+.wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.profile, .game { padding: 20px; border-radius: var(--radius); background: var(--surface); }
+.profile p, .game p { margin: 0 0 8px; }
+.heading { margin: 0 0 10px; font-size: 18px; color: var(--who); }
+.sub { font-weight: 800; color: var(--muted); font-size: 14px; }
+.likes { margin: 0 0 12px; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.likes li { padding: 2px 12px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }
+.game { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.fortune { font-size: 20px; font-weight: 800; min-height: 2em; }
+.count { color: var(--muted); font-size: 13px; }
