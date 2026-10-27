@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import type { ContributionMeta } from '../../types/contribution';
-import styles from './style.module.css';
+import type { WorkMeta } from '../../../types/contribution';
+import styles from './reaction.module.css';
 
-export const meta: ContributionMeta = {
-  slug: 'demo-arcade',
-  name: 'FT_Acade サンプル',
+export const meta: WorkMeta = {
   category: 'arcade',
   title: '反射神経ゲーム',
   description: '合図が出たらすぐボタンを押そう。反応までの時間をミリ秒で計ります。',
@@ -14,7 +12,7 @@ export const meta: ContributionMeta = {
 
 type Phase = 'idle' | 'waiting' | 'ready' | 'result' | 'early';
 
-const BEST_KEY = 'ft-acade:demo-arcade:best';
+const BEST_KEY = 'ft-acade:sample-pixel:reaction:best';
 
 function loadBest(): number | null {
   try {
@@ -32,7 +30,7 @@ function rank(ms: number) {
   return '🐢 もう一回いってみよう';
 }
 
-export default function DemoArcade() {
+export default function ReactionGame() {
   const [phase, setPhase] = useState<Phase>('idle');
   const [time, setTime] = useState<number | null>(null);
   const [best, setBest] = useState<number | null>(loadBest);

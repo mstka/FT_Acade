@@ -2,7 +2,9 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import CategoryPage from './pages/CategoryPage';
+import WhoIsWhoPage from './pages/WhoIsWhoPage';
 import MemberPage from './pages/MemberPage';
+import WorkPage from './pages/WorkPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 import GitVisualizerPage from './pages/GitVisualizerPage';
@@ -15,9 +17,10 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="arcade" element={<CategoryPage category="arcade" />} />
-          <Route path="who-is-who" element={<CategoryPage category="who-is-who" />} />
+          <Route path="who-is-who" element={<WhoIsWhoPage />} />
           <Route path="tools" element={<CategoryPage category="tools" />} />
           <Route path="members/:slug" element={<MemberPage />} />
+          <Route path="members/:slug/:work" element={<WorkPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="git" element={<GitVisualizerPage />} />
           <Route path="*" element={<NotFoundPage />} />

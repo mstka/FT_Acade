@@ -1,9 +1,17 @@
-# FT_Acade 実装仕様書 v1.0
+# FT_Acade 実装仕様書 v1.1
 
-作成日：2026-10-27  
+作成日：2026-10-27（v1.1 改訂：2026-10-28）  
 対象：For Two「開発の基礎知識②」勉強会（2026-10-28／60分）  
 実装担当：Claude Code  
 プロダクト名：**FT_Acade**（指定表記をそのまま使用。「Arcade」には自動修正しない）
+
+### v1.1 の変更点
+
+- **Who's Who を「メンバー一覧」に変更。** 1 人 1 枚のカードが並ぶ一覧から、各メンバーの専用ページ（自己紹介＋その人の作品一覧）へ移動する。Who's Who は作品のカテゴリではなくなり、作品のカテゴリは `arcade` / `tools` の 2 つ。
+- **1 人 1 フォルダ。** `src/contributions/<slug>/index.tsx` が自己紹介、`src/contributions/<slug>/works/<作品名>.tsx` が作品。作品はいくつでも置け、Arcade / Tools の一覧とホームの新着に自動で並ぶ。
+- **作品のページ** `/members/:slug/:work` を追加（作品名はファイル名）。
+- **テンプレートは `src/templates/member/`**（自動登録の対象外。`src/contributions/<slug>/` と同じ深さなので、コピーしても import のパスがそのまま使える）。サンプルは架空のメンバー 3 人（`sample-pixel` / `sample-bit` / `sample-dot`）の作品として収録。
+- **Git ビジュアライザー**は `tools/git-visualizer/` に分けたローカル専用ツール。`npm run dev` 時のみ `/#/git` に表示し、本番（Vercel）では「ローカル専用」の案内のみ表示する。本番ビルドには含めない。
 
 ## 0. この仕様書の使い方
 
@@ -29,7 +37,7 @@ FT_Acadeは、複数人が1つのGitHubリポジトリへ機能を追加して�
 | L2 | 自分のブランチで専用ページと動く機能を追加 → commit / push / PR | 自分のページが動き、PRが提出される | 早く終わった人／発展 |
 | L3 | 共通GASバックエンドAPIを呼ぶ機能を追加 | ダミーデータの取得／送信ができる | 発展・宿題 |
 
-Gitビジュアライザーは**別配布ツール**であり、本アプリに組み込まない。授業冒頭の補助教材とする。
+Gitビジュアライザーは授業冒頭の補助教材で、**ローカル専用ツール**として `tools/git-visualizer/` に分けて置く。`npm run dev` のときだけアプリの `/#/git` に表示し、本番（Vercel）のビルドには含めない（本番の `/#/git` は「ローカル専用です」という案内のみ）。
 
 ## 2. 技術とインフラ
 
@@ -74,22 +82,26 @@ Gitビジュアライザーは**別配布ツール**であり、本アプリに�
 
 | ルート（HashRouter内） | 画面 | 要件 |
 |---|---|---|
-| `/` | ホーム | 3カテゴリの概要、最新追加機能、学習の進め方、公開者名 |
-| `/arcade` | Arcade | ミニゲーム・診断をカード一覧で表示 |
-| `/who-is-who` | Who's Who | メンバーページ・クイズをカード一覧で表示 |
-| `/tools` | Tools | 業務効率化ツールをカード一覧で表示 |
-| `/members/:slug` | 参加者専用ページ | 自己紹介＋参加者が作ったインタラクティブ機能を表示 |
+| `/` | ホーム | 3カテゴリの概要（作品数・メンバー数）、新着の作品、学習の進め方、公開者名 |
+| `/arcade` | Arcade | 全メンバーのミニゲーム・診断の作品をカード一覧で表示 |
+| `/who-is-who` | Who's Who | **メンバー一覧**。1人1枚のカード（アイコン・名前・ひとこと・作品数）。押すとその人の専用ページへ |
+| `/tools` | Tools | 全メンバーの業務効率化ツールの作品をカード一覧で表示 |
+| `/members/:slug` | メンバー専用ページ | その人の自己紹介と、その人の作品の一覧 |
+| `/members/:slug/:work` | 作品ページ | 1つの作品。作者の専用ページへのリンク付き |
 | `/about` | About | 本プロジェクトの目的、GitHub共同開発の説明、API・環境変数の概要 |
+| `/git` | Git ビジュアライザー | ローカル（`npm run dev`）では埋め込み表示、本番では「ローカル専用」の案内 |
 | `*` | 404 | ホームへ戻れる案内 |
 
-> 実際の公開URLは例：`https://example.vercel.app/#/members/tanaka`。
+> 実際の公開URLは例：`https://example.vercel.app/#/members/tanaka`、`https://example.vercel.app/#/members/tanaka/renda`。
 
 ### 初期サンプル（デプロイ直後に必ず動く）
 
-- Arcade：**反射神経ゲーム**。開始後ランダムなタイミングでボタン表示、反応時間を表示。リセット可能。
-- Who's Who：**架空の人物当てクイズ**。3問以上、選択肢を押すと正誤とスコアを表示。実在メンバーの情報は使わない。
-- Tools：**文章整形・文字数カウンター**。入力すると文字数・行数を表示、余分な空白を整形しコピーできる。
-- サンプルは全て外部API、DB、ログインなしで動く。
+架空のサンプルメンバー 3 人（実在メンバーの情報は使わない）の自己紹介ページと、その作品として収録する。
+
+- Arcade：**反射神経ゲーム**（ピクセル太郎）。開始後ランダムなタイミングでボタン表示、反応時間を表示。リセット可能。
+- Arcade：**架空の人物当てクイズ**（ビット次郎）。3問以上、選択肢を押すと正誤とスコアを表示。
+- Tools：**文章整形・文字数カウンター**（ドット花子）。入力すると文字数・行数を表示、余分な空白を整形しコピーできる。
+- サンプルは全て外部API、DB、ログインなしで動く。一覧ではサンプルであることを明示する。
 
 ## 4. 共同開発で衝突を避ける仕組み【最重要】
 
@@ -97,60 +109,74 @@ Gitビジュアライザーは**別配布ツール**であり、本アプリに�
 
 参加者は原則 **`src/contributions/<自分のslug>/` のみを編集**する。`App.tsx`、共通ルーター、レジストリ、package.jsonは講師の許可がない限り触らない。
 
-**目標**：`src/contributions/<slug>/index.tsx` を1つ追加するだけで、(1)専用ページ、(2)該当カテゴリ一覧、(3)ホームの新着一覧に自動反映される。
+**目標**：自分のフォルダにファイルを置くだけで、次がすべて自動で反映される。共通ファイルの編集は不要で、複数人が同時に PR を出しても衝突しない。
 
-### コントリビューションの型
+| 置くファイル | 自動で反映される場所 |
+|---|---|
+| `src/contributions/<slug>/index.tsx`（自己紹介） | Who's Who の一覧のカード、専用ページ `/members/<slug>` |
+| `src/contributions/<slug>/works/<作品名>.tsx`（作品） | Arcade または Tools の一覧、ホームの新着、作品ページ `/members/<slug>/<作品名>`、本人の専用ページの作品一覧 |
 
-TypeScriptで以下の契約を設ける。実装時は型定義とサンプルを提供する。
+- スタイルは同じフォルダの CSS Modules（`*.module.css`）に書く。class 名がほかの人とぶつからない。
+- localStorage を使う場合のキーは `ft-acade:<slug>:...` とする。
+
+### 型（契約）
+
+TypeScriptで以下の契約を設ける（`src/types/contribution.ts`）。
 
 ```tsx
 import type { ComponentType } from 'react';
 
-export type ContributionCategory = 'arcade' | 'who-is-who' | 'tools';
+export type WorkCategory = 'arcade' | 'tools';
 
-export interface ContributionMeta {
-  slug: string;              // URLとフォルダ名に一致。例: tanaka
-  name: string;              // 表示名（公開してよい名前のみ）
-  category: ContributionCategory;
-  title: string;             // 作った機能名
-  description: string;       // 1〜2文
-  emoji: string;             // カード用絵文字
+// src/contributions/<slug>/index.tsx
+export interface MemberMeta {
+  slug: string;        // URLとフォルダ名に一致。例: tanaka
+  name: string;        // 表示名（公開してよい名前のみ）
+  emoji: string;       // アイコン
+  tagline: string;     // ひとこと（一覧のカードに出る）
+  addedAt?: string;    // 追加日 YYYY-MM-DD
+  sample?: boolean;    // 教材用サンプルなら true
 }
 
-export interface ContributionModule {
-  meta: ContributionMeta;
-  default: ComponentType;
+// src/contributions/<slug>/works/<作品名>.tsx（作品名＝ファイル名＝URL）
+export interface WorkMeta {
+  category: WorkCategory;
+  title: string;       // 作品名
+  description: string; // 1〜2文
+  emoji: string;       // カード用絵文字
+  addedAt?: string;    // 追加日 YYYY-MM-DD（ホームの新着の並び順）
 }
+
+export interface MemberModule { meta: MemberMeta; default: ComponentType }
+export interface WorkModule { meta: WorkMeta; default: ComponentType }
 ```
 
 ```tsx
-// src/contributions/tanaka/index.tsx のイメージ
-import type { ContributionMeta } from '../../types/contribution';
+// src/contributions/tanaka/index.tsx（自己紹介）のイメージ
+export const meta: MemberMeta = { slug: 'tanaka', name: '田中', emoji: '🎮', tagline: 'ゲーム好きのエンジニア' };
+export default function Profile() { return <p>はじめまして、田中です！</p>; }
 
-export const meta: ContributionMeta = {
-  slug: 'tanaka',
-  name: '田中',
-  category: 'arcade',
-  title: '連打チャレンジ',
-  description: '10秒で何回押せるか競うゲーム',
-  emoji: '🎮',
-};
-
-export default function TanakaPage() {
-  // 実際には動作するミニゲームと自己紹介を表示する
-  return <main><h1>田中のページ</h1><p>ミニゲームを制作中！</p></main>;
-}
+// src/contributions/tanaka/works/renda.tsx（作品）のイメージ
+export const meta: WorkMeta = { category: 'arcade', title: '連打チャレンジ', description: '10秒で何回押せるか競うゲーム', emoji: '👆' };
+export default function Renda() { /* 実際に動くミニゲーム */ }
 ```
 
 ### 自動登録
 
-`src/registry/contributions.ts` に、Viteの `import.meta.glob('../contributions/*/index.tsx', { eager: true })` を利用した**自動発見**を実装する。
+`src/registry/contributions.ts` に、Viteの `import.meta.glob` を利用した**自動発見**を実装する。
+
+```ts
+import.meta.glob('../contributions/*/index.tsx', { eager: true });
+import.meta.glob('../contributions/*/works/*.tsx', { eager: true });
+```
 
 - 各モジュールの`meta`とdefaultコンポーネントを取り込む。
-- `meta.slug` と親フォルダ名の一致を検証し、重複slugや不正カテゴリを検出する。
-- 表示の順序はカテゴリ→名前またはタイトルで安定ソート。
-- サンプル機能も同じ仕組みで登録し、特別扱いしない。
-- モジュールのエラーで全画面が落ちにくいようにError Boundaryを用意する。
+- `meta.slug` とフォルダ名の一致、slug・作品ファイル名の形式（半角英小文字・数字・ハイフン）、カテゴリ、必須項目を検証する。
+- 自己紹介が正しく読めないメンバーの作品は表示しない。問題のあるファイルは表示せず、ホームと Who's Who に直し方を表示する。
+- 除外パターン（`!...`）は使わない（`npm run dev` 中に追加したフォルダが反映されなくなるため）。テンプレートは glob の対象外の `src/templates/member/` に置く。
+- 表示順：メンバーは名前順（サンプルは後ろ）、作品はカテゴリ→タイトル順、新着は `addedAt` の新しい順。
+- サンプルも同じ仕組みで登録し、特別扱いしない（一覧の表示で「サンプル」と明示するのみ）。
+- 自己紹介と作品それぞれを Error Boundary で囲み、1人のエラーで全画面が落ちないようにする。
 - 参加者が共通の一覧・ルーターを編集する必要はない。
 
 > `import.meta.glob`のパスはViteの制約に従い**文字列リテラル**で記述すること。Vite固有機能としてREADMEにも明記する。
@@ -233,16 +259,17 @@ FT_Acade/
 │   ├── App.tsx
 │   ├── styles/
 │   ├── components/                  # 共通レイアウト・カード・ErrorBoundary
-│   ├── pages/                       # Home / Category / About / NotFound
+│   ├── pages/                       # Home / Category / WhoIsWho / Member / Work / About / Git / NotFound
 │   ├── types/contribution.ts
 │   ├── registry/contributions.ts    # import.meta.globで自動登録
 │   ├── lib/backend.ts               # L3に備える。未設定ならモック
-│   └── contributions/
-│       ├── demo-arcade/index.tsx
-│       ├── demo-quiz/index.tsx
-│       ├── demo-tool/index.tsx
-│       └── example-member/index.tsx # 参加者が複製するテンプレート
+│   ├── templates/member/            # 参加者が複製するテンプレート（自動登録の対象外）: index.tsx（自己紹介）+ works/omikuji.tsx（作品の例）
+│   └── contributions/               # 1人1フォルダ。参加者が触るのはここだけ
+│       ├── sample-pixel/            # 架空のサンプルメンバー（反射神経ゲーム）
+│       ├── sample-bit/              # 架空のサンプルメンバー（人物当てクイズ）
+│       └── sample-dot/              # 架空のサンプルメンバー（文章整形ツール）
 ├── api/                             # L3用、P0では空でも可
+├── tools/git-visualizer/            # ローカル専用の補助ツール（本番ビルドに含めない）
 ├── docs/
 │   ├── WORKSHOP_60MIN.md            # 講師用進行台本
 │   └── PARTICIPANT_GUIDE.md         # Mac/Windows共通の手順書
@@ -251,7 +278,7 @@ FT_Acade/
     └── workflows/ci.yml
 ```
 
-`example-member`は初期一覧に表示する場合「サンプル」であると明記するか、教材用として検出対象外のパスへ移す。参加者のテンプレート複製時にslug重複を起こさないこと。
+テンプレートは `src/templates/member/` に置き、自動登録の対象外とする。参加者がフォルダごと複製して `meta.slug` を自分のフォルダ名にする。複製し忘れ・書き換え忘れは自動登録の検証で検出し、直し方を画面に表示する。
 
 ## 9. 開発者体験・エラー対応
 
@@ -272,7 +299,8 @@ FT_Acade/
 - [ ] `npm run dev` でトップ、3カテゴリ、サンプル機能がすべて動く。
 - [ ] L1でDB・GAS・APIキーなしにVercelへ公開できる。
 - [ ] VercelのProduction環境変数で公開者名と環境表示を変更できる。
-- [ ] `src/contributions/new-person/index.tsx` 追加だけでページとカテゴリ一覧に自動反映される。
+- [ ] `src/contributions/new-person/index.tsx` 追加だけで Who's Who の一覧と専用ページに自動反映される。
+- [ ] `src/contributions/new-person/works/<作品名>.tsx` 追加だけで Arcade / Tools の一覧・ホームの新着・作品ページ・本人の専用ページに自動反映される。
 - [ ] 異なる2人が別ディレクトリを追加し、同時にPRを作っても共通ファイルの編集が不要。
 - [ ] README、参加者手順書、講師60分台本、PRテンプレート、CIがある。
 - [ ] 個人情報・APIキー・実在社員の顔写真・機密情報が初期データに含まれない。

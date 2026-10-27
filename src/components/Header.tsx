@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import { CATEGORIES } from '../registry/categories';
+import { SECTIONS } from '../registry/categories';
 import EnvBadge from './EnvBadge';
 
 export default function Header() {
@@ -12,7 +12,7 @@ export default function Header() {
         </Link>
         <nav className="nav" aria-label="メインメニュー">
           <NavLink to="/" end className="nav__link">ホーム</NavLink>
-          {CATEGORIES.map((c) => (
+          {SECTIONS.map((c) => (
             <NavLink key={c.id} to={c.path} className={`nav__link nav__link--${c.id}`}>
               <span aria-hidden="true">{c.emoji}</span> {c.label}
             </NavLink>

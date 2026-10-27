@@ -31,7 +31,8 @@ npm run dev
 
 - [ ] ホームに 3 つのカテゴリが出る
 - [ ] Arcade の「反射神経ゲーム」が遊べる
-- [ ] Who's Who の「人物当てクイズ」が遊べる
+- [ ] Arcade の「人物当てクイズ」が遊べる
+- [ ] Who's Who にメンバーのカードが並び、カードを押すとその人の専用ページが開く
 - [ ] Tools の「文字数カウンター」が使える
 - [ ] 右上に `local` と `公開者 Guest` が出ている
 - [ ] メニューの「🌿 Git (ローカル)」で、自分の PC のブランチの図が見られる (ローカルで動かしたときだけ使える機能です)
@@ -87,7 +88,8 @@ npx vercel
 git switch main
 git pull
 git switch -c feature/<slug>
-# src/contributions/example-member を src/contributions/<slug> にコピーして編集
+# src/templates/member を src/contributions/<slug> にコピーして、
+# index.tsx (自己紹介) と works/ (作品) を編集
 npm run dev
 npm run build
 git add src/contributions/<slug>

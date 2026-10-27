@@ -5,7 +5,7 @@ import { useDocumentTitle } from '../lib/useDocumentTitle';
 
 const FLOW = [
   { cmd: 'git switch -c feature/<slug>', text: '自分用のブランチを作る' },
-  { cmd: 'src/contributions/<slug>/index.tsx', text: '自分のフォルダにページを追加する' },
+  { cmd: 'src/contributions/<slug>/', text: '自分のフォルダに自己紹介と作品を追加する' },
   { cmd: 'npm run build', text: 'エラーが無いか確かめる' },
   { cmd: 'git add . / git commit', text: '変更を記録する' },
   { cmd: 'git push -u origin feature/<slug>', text: 'GitHub に送る' },
@@ -73,14 +73,15 @@ export default function AboutPage() {
       <h1>About FT_Acade</h1>
       <p>
         FT_Acade は、For Two の勉強会で参加者みんなが <strong>1 つの GitHub リポジトリ</strong> に機能を持ち寄って育てる Web アプリです。
-        Arcade (ミニゲーム)・Who&apos;s Who (自己紹介)・Tools (便利ツール) の 3 つのカテゴリがあります。
+        Arcade (ミニゲーム)・Who&apos;s Who (メンバー紹介)・Tools (便利ツール) の 3 つのカテゴリがあります。
       </p>
 
       <h2>みんなで開発するしくみ</h2>
       <p>
-        参加者は <code>src/contributions/&lt;自分の slug&gt;/index.tsx</code> を 1 つ追加するだけ。
-        専用ページ・カテゴリ一覧・ホームの新着に自動で並ぶので、共通のファイルを書き換える必要はありません。
-        それぞれ自分のフォルダだけを触るので、同時に作業してもぶつかりにくくなっています。
+        参加者は 1 人 1 つのフォルダ <code>src/contributions/&lt;自分の slug&gt;/</code> を持ちます。
+        <code>index.tsx</code> を置くと Who&apos;s Who に自分のカードと専用ページができ、
+        <code>works/</code> に作品を置くと Arcade や Tools の一覧に並びます。
+        共通のファイルを書き換える必要はなく、それぞれ自分のフォルダだけを触るので、同時に作業してもぶつかりません。
       </p>
       <ol className="flow">
         {FLOW.map((f) => (

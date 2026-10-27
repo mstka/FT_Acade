@@ -1,7 +1,9 @@
-import type { ContributionCategory } from '../types/contribution';
+import type { WorkCategory } from '../types/contribution';
 
-export interface CategoryInfo {
-  id: ContributionCategory;
+export type SectionId = WorkCategory | 'who-is-who';
+
+export interface SectionInfo {
+  id: SectionId;
   path: string;
   label: string;
   emoji: string;
@@ -9,22 +11,23 @@ export interface CategoryInfo {
   description: string;
 }
 
-export const CATEGORIES: readonly CategoryInfo[] = [
+/** メニューとホームに並ぶ 3 つのセクション */
+export const SECTIONS: readonly SectionInfo[] = [
   {
     id: 'arcade',
     path: '/arcade',
     label: 'Arcade',
     emoji: '🕹️',
     tagline: 'ミニゲーム・診断',
-    description: 'サクッと遊べるミニゲームや診断コンテンツ。スコアを競ったり、結果を見せ合ったり。',
+    description: 'みんなが作ったミニゲームや診断。スコアを競ったり、結果を見せ合ったり。',
   },
   {
     id: 'who-is-who',
     path: '/who-is-who',
     label: "Who's Who",
     emoji: '🪪',
-    tagline: '自己紹介・人物当てクイズ',
-    description: 'メンバーの自己紹介ページや人物当てクイズ。チームのことをもっと知ろう。',
+    tagline: 'メンバー紹介',
+    description: 'メンバーひとりひとりの自己紹介ページ。カードを押すと、その人の専用ページに移ります。',
   },
   {
     id: 'tools',
@@ -36,8 +39,10 @@ export const CATEGORIES: readonly CategoryInfo[] = [
   },
 ];
 
-export function getCategory(id: ContributionCategory): CategoryInfo {
-  const found = CATEGORIES.find((c) => c.id === id);
-  if (!found) throw new Error(`unknown category: ${id}`);
+export const WORK_CATEGORIES: readonly WorkCategory[] = ['arcade', 'tools'];
+
+export function getSection(id: SectionId): SectionInfo {
+  const found = SECTIONS.find((c) => c.id === id);
+  if (!found) throw new Error(`unknown section: ${id}`);
   return found;
 }

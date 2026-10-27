@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import type { ContributionMeta } from '../../types/contribution';
-import styles from './style.module.css';
+import type { WorkMeta } from '../../../types/contribution';
+import styles from './character-quiz.module.css';
 
-export const meta: ContributionMeta = {
-  slug: 'demo-quiz',
-  name: 'FT_Acade サンプル',
-  category: 'who-is-who',
+export const meta: WorkMeta = {
+  category: 'arcade',
   title: '架空の人物当てクイズ',
   description: 'ヒントを読んで、どのキャラクターのことか当てよう。登場人物はすべて架空です。',
   emoji: '🕵️',
@@ -47,7 +45,7 @@ const QUESTIONS: Question[] = [
   },
 ];
 
-export default function DemoQuiz() {
+export default function CharacterQuiz() {
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);

@@ -1,19 +1,19 @@
-import { Link } from 'react-router-dom';
-import type { ContributionCategory } from '../types/contribution';
-import { getCategory } from '../registry/categories';
-import { contributions, contributionsIn } from '../registry/contributions';
-import FeatureCard from '../components/FeatureCard';
+import type { WorkCategory } from '../types/contribution';
+import { getSection } from '../registry/categories';
+import { worksIn } from '../registry/contributions';
+import WorkCard from '../components/WorkCard';
 import EmptyState from '../components/EmptyState';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 
 interface Props {
-  category: ContributionCategory;
+  category: WorkCategory;
 }
 
+/** Arcade / Tools: みんなの作品の一覧 */
 export default function CategoryPage({ category }: Props) {
-  const info = getCategory(category);
+  const info = getSection(category);
   useDocumentTitle(info.label);
-  const items = contributionsIn(category);
+  const items = worksIn(category);
 
   return (
     <div className="page">
@@ -26,33 +26,18 @@ export default function CategoryPage({ category }: Props) {
         </div>
       </header>
 
-      {category === 'who-is-who' && contributions.length > 0 && (
-        <section aria-labelledby="members-title">
-          <h2 id="members-title" className="section-title">メンバーのページ</h2>
-          <ul className="member-list">
-            {contributions.map((c) => (
-              <li key={c.meta.slug}>
-                <Link to={`/members/${c.meta.slug}`} className="member-chip">
-                  <span aria-hidden="true">{c.meta.emoji}</span> {c.meta.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
       <section aria-labelledby="list-title">
-        <h2 id="list-title" className="section-title">{info.tagline}</h2>
+        <h2 id="list-title" className="section-title">作品 ({items.length})</h2>
         {items.length ? (
-          <div className="feature-grid">
-            {items.map((c) => (
-              <FeatureCard key={c.meta.slug} contribution={c} />
+          <div className="work-grid">
+            {items.map((w) => (
+              <WorkCard key={w.path} work={w} />
             ))}
           </div>
         ) : (
-          <EmptyState title={`${info.label} にはまだ何もありません`}>
+          <EmptyState title={`${info.label} の作品はまだありません`}>
             <p>
-              <code>meta.category</code> を <code>&quot;{category}&quot;</code> にしたページを作ると、ここに並びます。
+              自分のフォルダの <code>works/</code> に、<code>meta.category</code> を <code>&quot;{category}&quot;</code> にした作品を置くと、ここに並びます。
             </p>
           </EmptyState>
         )}

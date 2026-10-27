@@ -1,10 +1,8 @@
 import { useMemo, useState } from 'react';
-import type { ContributionMeta } from '../../types/contribution';
-import styles from './style.module.css';
+import type { WorkMeta } from '../../../types/contribution';
+import styles from './text-formatter.module.css';
 
-export const meta: ContributionMeta = {
-  slug: 'demo-tool',
-  name: 'FT_Acade サンプル',
+export const meta: WorkMeta = {
   category: 'tools',
   title: '文章整形・文字数カウンター',
   description: '文字数や行数を数えて、余分な空白や空行を整えます。整えた文章はワンクリックでコピー。',
@@ -55,7 +53,7 @@ function stats(text: string) {
   };
 }
 
-export default function DemoTool() {
+export default function TextFormatter() {
   const [text, setText] = useState(SAMPLE);
   const [options, setOptions] = useState<Options>({ trimLines: true, collapseSpaces: true, collapseBlankLines: true, fullWidthSpace: false });
   const [copied, setCopied] = useState<'idle' | 'ok' | 'ng'>('idle');

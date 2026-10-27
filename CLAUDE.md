@@ -15,15 +15,26 @@ GitHub: https://github.com/mstka/FT_Acade
 - **参加者のために作業するときは、`src/contributions/<その人の slug>/` の中だけを変更してください。**
 - `src/App.tsx`・`src/registry/`・`src/components/`・`src/pages/`・`src/types/`・`src/styles/`・`package.json`・`package-lock.json`・設定ファイル (`vite.config.ts`, `tsconfig*.json`, `eslint.config.js`, `vercel.json`, `.github/`) は、ユーザーが「講師として共通部分を変更する」と明言したときだけ変更してください。
 - 新しい npm パッケージを追加しないでください (`package-lock.json` が衝突の原因になります)。必要そうなら、まず講師に相談するようユーザーに伝えてください。
-- 自分のページは `src/contributions/<slug>/index.tsx` を置くだけで、専用ページ・カテゴリ一覧・ホームの新着に自動で並びます。共通ファイルへの登録は不要です。
+- ほかの参加者のフォルダや、テンプレート `src/templates/member/` も変更しない。
+- ファイルを置くだけで一覧に自動で並びます。共通ファイルへの登録は不要です。
 
-## 自分のページ (contribution) の作り方
+## 1 人 1 フォルダの構成
 
-- お手本は `src/contributions/example-member/`。フォルダごとコピーして `<slug>` に名前を変える。
-- `index.tsx` は `export const meta: ContributionMeta` と `export default function` (ページのコンポーネント) の 2 つを必ず export する。
-- `meta.slug` はフォルダ名と同じ。半角英小文字・数字・ハイフンのみ。
-- `meta.category` は `'arcade'` / `'who-is-who'` / `'tools'` のどれか。
-- スタイルは同じフォルダの `style.module.css` (CSS Modules) に書く。共通の色などは `var(--pink)` などの CSS 変数を使ってよい。
+```text
+src/contributions/<slug>/
+├── index.tsx            自己紹介 (export const meta: MemberMeta + export default)。Who's Who の一覧カード → /members/<slug>
+├── profile.module.css
+└── works/
+    ├── <作品名>.tsx      作品 (export const meta: WorkMeta + export default)。Arcade / Tools の一覧 → /members/<slug>/<作品名>
+    └── <作品名>.module.css
+```
+
+- お手本は `src/templates/member/` (サイトには出ない)。フォルダごと `src/contributions/<slug>/` にコピーする。
+- `index.tsx` の `meta.slug` はフォルダ名と同じ。slug と作品のファイル名は半角英小文字・数字・ハイフンのみ。
+- `MemberMeta`: `slug` / `name` / `emoji` / `tagline` (必須)、`addedAt` (任意)。`sample` は教材用サンプル専用なので参加者は付けない。
+- `WorkMeta`: `category` (`'arcade'` か `'tools'`) / `title` / `description` / `emoji` (必須)、`addedAt` (任意)。
+- 型は `import type { MemberMeta } from '../../types/contribution'` (作品は `'../../../types/contribution'`)。
+- スタイルは同じフォルダの `*.module.css` (CSS Modules) に書く。共通の色などは `var(--pink)` などの CSS 変数を使ってよい。
 - 共通部品として使ってよい class: `btn`, `btn--primary`, `muted`, `chip`。
 - 実在の人物の個人情報、パスワード、API キー、社外秘の情報、外部の有料 API は使わない。データは架空のものにする。
 - localStorage を使うときはキーを `ft-acade:<slug>:...` にし、try / catch で囲む。
