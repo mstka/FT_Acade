@@ -1,0 +1,10 @@
+/* このファイルの class 名は、このページの中だけで使われます (CSS Modules)。ほかの人のページとぶつかりません */
+.wrap p { margin: 0 0 12px; }
+.hello { font-size: 18px; font-weight: 700; }
+.heading { margin: 18px 0 8px; font-size: 16px; color: var(--who); }
+.likes { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.likes li { padding: 3px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 16px 0 0; }
+.facts div { padding: 12px 14px; border-radius: 12px; background: var(--surface); }
+.facts dt { font-size: 13px; color: var(--muted); font-weight: 700; }
+.facts dd { margin: 2px 0 0; }
